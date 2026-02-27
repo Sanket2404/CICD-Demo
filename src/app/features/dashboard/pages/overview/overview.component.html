@@ -7,8 +7,11 @@
   </div>
 
   @if (isLoading()) {
+
     <app-loading-spinner></app-loading-spinner>
-  } @else if (error()) {
+
+  } 
+  @else if (error()) {
     <mat-card class="error-card">
       <mat-card-content>
         <p>{{ error() }}</p>
