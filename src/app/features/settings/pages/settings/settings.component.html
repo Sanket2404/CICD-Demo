@@ -1,0 +1,57 @@
+<div class="settings-container">
+  <h1>Settings</h1>
+
+  @if (isLoading) {
+    <app-loading-spinner></app-loading-spinner>
+  } @else {
+    <mat-card class="settings-card">
+      <mat-card-header>
+        <mat-card-title>Appearance</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="setting-item">
+          <label>Theme</label>
+          <mat-slide-toggle (change)="onThemeToggle()">
+            {{ settings().theme === 'light' ? 'Light' : 'Dark' }}
+          </mat-slide-toggle>
+        </div>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Language</mat-label>
+          <mat-select [(value)]="settings().language">
+            <mat-option value="en">English</mat-option>
+            <mat-option value="es">Spanish</mat-option>
+            <mat-option value="fr">French</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="settings-card">
+      <mat-card-header>
+        <mat-card-title>Notifications</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="setting-item">
+          <label>Enable Notifications</label>
+          <mat-slide-toggle [(ngModel)]="settings().notifications">
+            {{ settings().notifications ? 'Enabled' : 'Disabled' }}
+          </mat-slide-toggle>
+        </div>
+
+        <div class="setting-item">
+          <label>Email Notifications</label>
+          <mat-slide-toggle [(ngModel)]="settings().emailNotifications">
+            {{ settings().emailNotifications ? 'Enabled' : 'Disabled' }}
+          </mat-slide-toggle>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <div class="form-actions">
+      <button mat-raised-button color="primary" (click)="onSave()">
+        Save Settings
+      </button>
+    </div>
+  }
+</div>

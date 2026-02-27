@@ -1,0 +1,52 @@
+.users-container {
+  padding: 1.5rem;
+
+  .users-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+
+    h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+  }
+
+  .error-card {
+    background-color: #ffebee;
+    border-left: 4px solid #f44336;
+
+    p {
+      color: #c62828;
+      margin: 0;
+    }
+  }
+
+  .users-table {
+    width: 100%;
+  }
+
+  .status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+
+    &.status-active {
+      background-color: #c8e6c9;
+      color: #2e7d32;
+    }
+
+    &.status-inactive {
+      background-color: #ffccbc;
+      color: #d84315;
+    }
+
+    &.status-pending {
+      background-color: #fff9c4;
+      color: #f57f17;
+    }
+  }
+}

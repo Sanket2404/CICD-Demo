@@ -1,0 +1,68 @@
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h1>Dashboard</h1>
+    <button mat-icon-button (click)="onRefresh()" aria-label="Refresh">
+      <mat-icon>refresh</mat-icon>
+    </button>
+  </div>
+
+  @if (isLoading()) {
+    <app-loading-spinner></app-loading-spinner>
+  } @else if (error()) {
+    <mat-card class="error-card">
+      <mat-card-content>
+        <p>{{ error() }}</p>
+      </mat-card-content>
+    </mat-card>
+  } @else {
+    <!-- Metrics Grid -->
+    <div class="metrics-grid">
+      @for (metric of metrics(); track metric.id) {
+        <app-dashboard-metric [metric]="metric"></app-dashboard-metric>
+      }
+    </div>
+
+    <!-- Charts Section -->
+    <div class="charts-section">
+      <div class="charts-row">
+        @if (revenueChart()) {
+          <div class="chart-wrapper">
+            <app-revenue-chart [chartData]="revenueChart()!"></app-revenue-chart>
+          </div>
+        }
+        @if (ordersChart()) {
+          <div class="chart-wrapper">
+            <app-orders-chart [chartData]="ordersChart()!"></app-orders-chart>
+          </div>
+        }
+      </div>
+      <div class="charts-row">
+        @if (usersChart()) {
+          <div class="chart-wrapper full-width">
+            <app-users-chart [chartData]="usersChart()!"></app-users-chart>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Recent Activities -->
+    @if (activities().length > 0) {
+      <div class="activities-section">
+        <h2>Recent Activities</h2>
+        <mat-card>
+          <mat-card-content>
+            <div class="activities-list">
+              @for (activity of activities(); track activity.id) {
+                <div class="activity-item">
+                  <span class="activity-actor">{{ activity.actor }}</span>
+                  <span class="activity-title">{{ activity.title }}</span>
+                  <span class="activity-time">{{ activity.timestamp | date: 'short' }}</span>
+                </div>
+              }
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    }
+  }
+</div>

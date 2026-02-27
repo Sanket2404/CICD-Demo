@@ -1,0 +1,146 @@
+<div class="admin-layout">
+  <app-header (toggleSidebar)="onToggleSidebar()"></app-header>
+
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav
+      #sidenav
+      [opened]="sidebarOpen()"
+      mode="side"
+      class="sidebar"
+    >
+      <div class="sidebar-header">
+        <mat-icon class="logo-icon">admin_panel_settings</mat-icon>
+        <h2>AdminPanel</h2>
+      </div>
+
+      <mat-nav-list>
+        @for (item of menuItems; track item.route) {
+          <a mat-list-item [routerLink]="item.route" routerLinkActive="active">
+            <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+            <span matListItemTitle>{{ item.label }}</span>
+          </a>
+        }
+      </mat-nav-list>
+
+      <div class="sidebar-footer">
+        <mat-divider></mat-divider>
+        <button mat-list-item>
+          <mat-icon matListItemIcon>help</mat-icon>
+          <span matListItemTitle>Help & Support</span>
+        </button>
+        <button mat-list-item>
+          <mat-icon matListItemIcon>logout</mat-icon>
+          <span matListItemTitle>Logout</span>
+        </button>
+      </div>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="sidenav-content">
+      <main class="main-content">
+        <!-- Dashboard Overview -->
+        @if (showDashboard()) {
+          <div class="dashboard-section">
+            <div class="section-header">
+              <h1>Dashboard</h1>
+              <p class="subtitle">Welcome back! Here's what's happening with your business today.</p>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="cards-grid">
+              @for (card of dashboardCards(); track card.title) {
+                <mat-card class="stat-card" [class]="'stat-card--' + card.color">
+                  <mat-card-content>
+                    <div class="card-header">
+                      <mat-icon [class]="'card-icon card-icon--' + card.color">{{ card.icon }}</mat-icon>
+                      @if (card.trend !== undefined) {
+                        <span
+                          class="trend-badge"
+                          [class.trend-positive]="card.trend >= 0"
+                          [class.trend-negative]="card.trend < 0"
+                        >
+                          <mat-icon>{{ card.trend >= 0 ? 'trending_up' : 'trending_down' }}</mat-icon>
+                          {{ Math.abs(card.trend) }}%
+                        </span>
+                      }
+                    </div>
+                    <h3 class="card-title">{{ card.title }}</h3>
+                    <p class="card-value">{{ card.value }}</p>
+                    <mat-progress-bar
+                      mode="determinate"
+                      [value]="Math.min(card.trend ? card.trend * 5 : 50, 100)"
+                      [class]="'progress-bar--' + card.status"
+                    ></mat-progress-bar>
+                  </mat-card-content>
+                </mat-card>
+              }
+            </div>
+
+            <!-- Recent Activity and Quick Actions -->
+            <div class="content-grid">
+              <!-- Recent Activity -->
+              <mat-card class="activity-card">
+                <mat-card-header>
+                  <div mat-card-title>
+                    <mat-icon matBadge="{{ notificationCount() }}" matBadgeColor="warn">
+                      notifications
+                    </mat-icon>
+                    Recent Activity
+                  </div>
+                </mat-card-header>
+                <mat-card-content>
+                  <div class="activity-list">
+                    @for (activity of recentActivities(); track activity.id) {
+                      <div class="activity-item">
+                        <div class="activity-icon" [class]="'activity-icon--' + activity.icon">
+                          <mat-icon>{{ activity.icon }}</mat-icon>
+                        </div>
+                        <div class="activity-content">
+                          <h4 class="activity-title">{{ activity.title }}</h4>
+                          <p class="activity-description">{{ activity.description }}</p>
+                          <span class="activity-meta">{{ activity.timestamp | date: 'short' }}</span>
+                        </div>
+                      </div>
+                    }
+                  </div>
+                </mat-card-content>
+              </mat-card>
+
+              <!-- Quick Actions -->
+              <mat-card class="quick-actions-card">
+                <mat-card-header>
+                  <div mat-card-title>
+                    <mat-icon>flash_on</mat-icon>
+                    Quick Actions
+                  </div>
+                </mat-card-header>
+                <mat-card-content>
+                  <div class="actions-grid">
+                    <button mat-stroked-button class="action-btn">
+                      <mat-icon>person_add</mat-icon>
+                      <span>Add User</span>
+                    </button>
+                    <button mat-stroked-button class="action-btn">
+                      <mat-icon>assignment</mat-icon>
+                      <span>Create Report</span>
+                    </button>
+                    <button mat-stroked-button class="action-btn">
+                      <mat-icon>send</mat-icon>
+                      <span>Send Email</span>
+                    </button>
+                    <button mat-stroked-button class="action-btn">
+                      <mat-icon>settings</mat-icon>
+                      <span>Settings</span>
+                    </button>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+        }
+
+        <router-outlet></router-outlet>
+      </main>
+      <app-footer></app-footer>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

@@ -1,0 +1,15 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+
+  .user-email {
+    font-size: 0.875rem;
+    margin-right: 0.5rem;
+    opacity: 0.9;
+  }
+}

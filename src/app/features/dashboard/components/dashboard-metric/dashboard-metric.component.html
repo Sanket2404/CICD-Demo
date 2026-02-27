@@ -1,0 +1,22 @@
+<mat-card class="metric-card" [style.border-left-color]="metric().color">
+  <mat-card-content>
+    <div class="metric-header">
+      <div class="metric-icon" [style.background-color]="metric().color + '20'">
+        <mat-icon [style.color]="metric().color">{{ metric().icon }}</mat-icon>
+      </div>
+      @if (metric().trend) {
+        <div class="metric-trend" [class]="'trend-' + metric().trend">
+          <mat-icon>{{ metric().trend === 'up' ? 'trending_up' : metric().trend === 'down' ? 'trending_down' : 'trending_flat' }}</mat-icon>
+          <span>{{ metric().trendValue }}</span>
+        </div>
+      }
+    </div>
+    <div class="metric-content">
+      <p class="metric-label">{{ metric().label }}</p>
+      <p class="metric-value">{{ metric().value }}</p>
+      @if (metric().subtitle) {
+        <p class="metric-subtitle">{{ metric().subtitle }}</p>
+      }
+    </div>
+  </mat-card-content>
+</mat-card>
